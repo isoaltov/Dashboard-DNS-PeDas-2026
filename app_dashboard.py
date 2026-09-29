@@ -66,7 +66,7 @@ with tab1:
     with col_img:
         img_pareto = load_image("fig4_pareto_domains.png")
         if img_pareto:
-            st.image(img_pareto, use_column_width=True)
+            st.image(img_pareto, use_container_width=True)
         else:
             st.warning("Gambar grafik Pareto belum dibuat di folder dns_analytics_output.")
             
@@ -83,7 +83,7 @@ with tab2:
     with col_img:
         img_dnssec = load_image("fig2_dnssec_amplification_and_latency.png")
         if img_dnssec:
-            st.image(img_dnssec, use_column_width=True)
+            st.image(img_dnssec, use_container_width=True)
         else:
             st.warning("Gambar grafik DNSSEC belum dibuat.")
             
@@ -100,7 +100,7 @@ with tab3:
     with col_img:
         img_nxdomain = load_image("fig3_nxdomain_root_cause_and_sld.png")
         if img_nxdomain:
-            st.image(img_nxdomain, use_column_width=True)
+            st.image(img_nxdomain, use_container_width=True)
         else:
             st.warning("Gambar grafik NXDOMAIN belum dibuat.")
             
