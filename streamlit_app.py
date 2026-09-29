@@ -24,7 +24,7 @@ st.markdown("""
 
 # Helper function untuk load gambar dengan aman
 def load_image(filename):
-    path = os.path.join("dns_analytics_output", filename)
+    path = os.path.join("04_hasil_Keluaran", filename)
     if os.path.exists(path):
         return Image.open(path)
     return None
