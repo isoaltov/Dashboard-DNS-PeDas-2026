@@ -24,7 +24,7 @@ st.markdown("""
 
 # Helper function untuk load gambar dengan aman
 def load_image(filename):
-    path = os.path.join(filename)
+    path = os.path.join("images", filename)
     if os.path.exists(path):
         return Image.open(path)
     return None
@@ -68,7 +68,7 @@ with tab1:
         if img_pareto:
             st.image(img_pareto, use_column_width=True)
         else:
-            st.warning("Gambar grafik Pareto belum dibuat di folder dns_analytics_output.")
+            st.warning("Gambar grafik Pareto tidak ada)
             
     with col_text:
         st.info("**🔍 Analisis Akar Masalah:**\n\nKetiga domain ini (`smartconnect.id`, `axarva.id`, `rndlabbankmandiri.co.id`) secara konstan ditanyakan berulang kali oleh resolver ISP. Ini mengindikasikan aplikasi mereka mengabaikan batas TTL (Time-To-Live) dan melakukan *polling* buta.")
