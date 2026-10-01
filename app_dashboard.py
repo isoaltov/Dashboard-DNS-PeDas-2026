@@ -165,22 +165,32 @@ with tab2:
       st.warning("Gambar grafik DNSSEC belum dibuat.")
 
   with col_text:
-        st.info(
-            "**🔍 Analisis Akar Masalah:**\n\n"
-            "• **Adopsi Tinggi:** 87,58% kueri meminta DNSSEC (`do=1`).\n\n"
-            "• **Amplifikasi Ukuran:** Payload membengkak dari median 44 Byte (kueri) menjadi median 446 Byte (hingga rekor 2.126 Byte) pada respons bertanda tangan.\n\n"
-            "• **Pemotongan UDP:** 321.798 paket (5,50%) terpotong (`tc=1`) karena melebihi buffer 1.232 B (RFC 8900).\n\n"
-            "• **Beban TCP 2,6x Lebih Lambat:** Memicu 510.391 koneksi TCP yang memakan memori kernel server Anycast dan 2,6x lebih lambat (277,4 µs vs 106,7 µs)."
+        st.markdown(
+            """
+            <div style="background-color: #e0f2fe; padding: 15px; border-radius: 8px; border-left: 5px solid #0284c7; color: #0f172a; margin-bottom: 10px;">
+                <b>🔍 Analisis Akar Masalah:</b><br><br>
+                • <b>Adopsi Tinggi:</b> 87,58% kueri meminta DNSSEC (<code>do=1</code>).<br><br>
+                • <b>Amplifikasi Ukuran:</b> Payload membengkak dari median 44 Byte (kueri) menjadi median 446 Byte (hingga rekor 2.126 Byte) pada respons bertanda tangan.<br><br>
+                • <b>Pemotongan UDP:</b> 321.798 paket (5,50%) terpotong (<code>tc=1</code>) karena melebihi buffer 1.232 B (RFC 8900).<br><br>
+                • <b>Beban TCP 2,6x Lebih Lambat:</b> Memicu 510.391 koneksi TCP yang memakan memori kernel server Anycast dan 2,6x lebih lambat (277,4 µs vs 106,7 µs).
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
-        st.success(
-            "**💡 Rekomendasi Solusi Bisnis (P2):**\n\n"
-            "**Tuning Kernel Anycast:** Naikkan parameter OS `tcp_max_syn_backlog` dari 1.024 ke 16.384/32.768 agar port 53 bebas dari risiko *socket exhaustion*.\n\n"
-            "**Migrasi Kriptografi:** Evaluasi adopsi kurva eliptik ECDSA P-256 (RFC 8624) yang lebih ringkas agar respons muat di bawah 1.232 Byte."
+        st.markdown(
+            """
+            <div style="background-color: #dcfce7; padding: 15px; border-radius: 8px; border-left: 5px solid #16a34a; color: #0f172a;">
+                <b>💡 Rekomendasi Solusi Bisnis (P2):</b><br><br>
+                <b>Tuning Kernel Anycast:</b> Naikkan parameter OS <code>tcp_max_syn_backlog</code> dari 1.024 ke 16.384/32.768 agar port 53 bebas dari risiko <i>socket exhaustion</i>.<br><br>
+                <b>Migrasi Kriptografi:</b> Evaluasi adopsi kurva eliptik ECDSA P-256 (RFC 8624) yang lebih ringkas agar respons muat di bawah 1.232 Byte.
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
 # --- TAB 3: NXDOMAIN ---
 with tab3:
-  st.subheader("Taksonomi NXDOMAIN (Membongkar Mitos DDoS)")
+  st.subheader("Taksonomi NXDOMAIN")
   st.write(
       "Sebanyak 675.229 paket dijawab gagal (NXDOMAIN / 11,54%). Mayoritas"
       " mutlak (>95%) merupakan sampah operasional internet (domain"
@@ -198,17 +208,27 @@ with tab3:
       st.warning("Gambar grafik NXDOMAIN belum dibuat.")
 
   with col_text:
-        st.info(
-            "**🔍 Analisis Akar Masalah:**\n\n"
-            "• **58,3% Volume Kueri:** Domain kedaluwarsa/mati yang masih terus dicari sistem luar (`tracker.itscraftsoftware.my.id`).\n\n"
-            "• **35,7% Nama Domain Unik (23% Volume):** Variasi salah ketik pengguna sesaat (*human typos / singletons*).\n\n"
-            "• **Enterprise & Stale NS:** Kueri otomatis Microsoft Office 365 (`msoid.co.id`) dan rujukan nameserver mati (`ns1.bna.net.id`).\n\n"
-            "• **Anomali Menit 15:02 WIB:** Lonjakan tajam sesaat akibat scanning/fuzzing dari 2 IP penguji, bukan DDoS PRSD yang mengancam server."
+        st.markdown(
+            """
+            <div style="background-color: #e0f2fe; padding: 15px; border-radius: 8px; border-left: 5px solid #0284c7; color: #0f172a; margin-bottom: 10px;">
+                <b>🔍 Analisis Akar Masalah:</b><br><br>
+                • <b>58,3% Volume Kueri:</b> Domain kedaluwarsa/mati yang masih terus dicari sistem luar (<code>tracker.itscraftsoftware.my.id</code>).<br><br>
+                • <b>35,7% Nama Domain Unik (23% Volume):</b> Variasi salah ketik pengguna sesaat (<i>human typos / singletons</i>).<br><br>
+                • <b>Enterprise & Stale NS:</b> Kueri otomatis Microsoft Office 365 (<code>msoid.co.id</code>) dan rujukan nameserver mati (<code>ns1.bna.net.id</code>).<br><br>
+                • <b>Anomali Menit 15:02 WIB:</b> Lonjakan tajam sesaat akibat scanning/fuzzing dari 2 IP penguji, bukan DDoS PRSD yang mengancam server.
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
-        st.success(
-            "**💡 Rekomendasi Solusi Bisnis (P3 - Solusi Rp0,-):**\n\n"
-            "**Negative Caching RFC 2308:** Naikkan parameter *SOA Minimum TTL* dari 300 detik (5 menit) ke 1.800 detik (30 menit).\n\n"
-            "**Target KPI:** Resolver ISP menahan jawaban NXDOMAIN 6x lebih lama, meredam 25%–35% kueri sampah berulang ke PANDI secara cuma-cuma tanpa belanja hardware!"
+        st.markdown(
+            """
+            <div style="background-color: #dcfce7; padding: 15px; border-radius: 8px; border-left: 5px solid #16a34a; color: #0f172a;">
+                <b>💡 Rekomendasi Solusi Bisnis (P3 - Solusi Rp0,-):</b><br><br>
+                <b>Negative Caching RFC 2308:</b> Naikkan parameter <i>SOA Minimum TTL</i> dari 300 detik (5 menit) ke 1.800 detik (30 menit).<br><br>
+                <b>Target KPI:</b> Resolver ISP menahan jawaban NXDOMAIN 6x lebih lama, meredam 25%–35% kueri sampah berulang ke PANDI secara cuma-cuma tanpa belanja hardware!
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
 # --- TAB 4: TABEL RISIKO ---
