@@ -122,20 +122,31 @@ with tab1:
       st.warning("Gambar grafik Pareto belum dibuat.")
 
   with col_text:
-        st.info(
-            "**🔍 Analisis Akar Masalah:**\n\n"
-            "Ketiga domain teratas menyerap beban masif:\n"
-            "• `smartconnect.id`: 981.583 kueri (16,75%)\n"
-            "• `axarva.id`: 341.427 kueri (5,82%)\n"
-            "• `speedtest.rndlabbankmandiri.co.id`: 273.346 kueri (4,66% pada host speedtest, atau 278.116 kueri total keluarga subdomain `*.rndlabbankmandiri.co.id`)\n\n"
-            "**Akar Masalah:** Aplikasi klien mengabaikan batas TTL (Time-To-Live) dan melakukan *blind polling* tanpa caching lokal."
-        )
-        st.success(
-            "**💡 Rekomendasi Solusi Bisnis (P1):**\n\n"
-            "**Edukasi Pemilik Domain:** Tim Kemitraan PANDI menegur pemilik ketiga domain melalui registrar terkait untuk memperbaiki caching aplikasinya.\n\n"
-            "**Target KPI:** Kueri berulang turun ≥85%, langsung menghemat **~27% kapasitas nasional (~800 QPS)** secara instan tanpa biaya perangkat keras (Zero Cost / Rp0,-)."
-        )
+    # Menggunakan st.markdown dengan styling HTML/CSS box agar mirip st.info
+    st.markdown(
+        """
+        <div style="background-color: #e0f2fe; padding: 15px; border-radius: 8px; border-left: 5px solid #0284c7; color: #0f172a; margin-bottom: 10px;">
+            <b>🔍 Analisis Akar Masalah:</b><br><br>
+            Ketiga domain teratas menyerap beban masif:<br>
+            • <code>smartconnect.id</code>: 981.583 kueri (16,75%)<br>
+            • <code>axarva.id</code>: 341.427 kueri (5,82%)<br>
+            • <code>speedtest.rndlabbankmandiri.co.id</code>: 273.346 kueri (4,66%)<br><br>
+            <b>Akar Masalah:</b> Aplikasi klien mengabaikan batas TTL dan melakukan <i>blind polling</i> tanpa caching lokal.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
+    st.markdown(
+        """
+        <div style="background-color: #dcfce7; padding: 15px; border-radius: 8px; border-left: 5px solid #16a34a; color: #0f172a;">
+            <b>💡 Rekomendasi Solusi Bisnis (P1):</b><br><br>
+            <b>Edukasi Pemilik Domain:</b> Tim Kemitraan PANDI menegur pemilik ketiga domain melalui registrar terkait.<br><br>
+            <b>Target KPI:</b> Kueri berulang turun ≥85%, langsung menghemat <b>~27% kapasitas nasional</b> secara instan (Rp0,-).
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 # --- TAB 2: DNSSEC ---
 with tab2:
   st.subheader("Amplifikasi Protokol DNSSEC & Kelelahan TCP")
