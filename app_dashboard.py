@@ -122,19 +122,19 @@ with tab1:
       st.warning("Gambar grafik Pareto belum dibuat.")
 
   with col_text:
-    st.info("""**🔍 Analisis Akar Masalah:**
-
-Ketiga domain teratas menyerap beban masif:
-• `smartconnect.id`: 981.583 kueri (16,75%)
-• `axarva.id`: 341.427 kueri (5,82%)
-• `speedtest.rndlabbankmandiri.co.id`: 273.346 kueri (4,66% pada host speedtest, atau 278.116 kueri total keluarga subdomain `*.rndlabbankmandiri.co.id`)
-
-**Akar Masalah:** Aplikasi klien mengabaikan batas TTL (Time-To-Live) dan melakukan *blind polling* tanpa caching lokal.""")
-    st.success("""**💡 Rekomendasi Solusi Bisnis (P1):**
-
-**Edukasi Pemilik Domain:** Tim Kemitraan PANDI menegur pemilik ketiga domain melalui registrar terkait untuk memperbaiki caching aplikasinya.
-
-**Target KPI:** Kueri berulang turun ≥85%, langsung menghemat **~27% kapasitas nasional (~800 QPS)** secara instan tanpa biaya perangkat keras (Zero Cost / Rp0,-).""")
+        st.info(
+            "**🔍 Analisis Akar Masalah:**\n\n"
+            "Ketiga domain teratas menyerap beban masif:\n"
+            "• `smartconnect.id`: 981.583 kueri (16,75%)\n"
+            "• `axarva.id`: 341.427 kueri (5,82%)\n"
+            "• `speedtest.rndlabbankmandiri.co.id`: 273.346 kueri (4,66% pada host speedtest, atau 278.116 kueri total keluarga subdomain `*.rndlabbankmandiri.co.id`)\n\n"
+            "**Akar Masalah:** Aplikasi klien mengabaikan batas TTL (Time-To-Live) dan melakukan *blind polling* tanpa caching lokal."
+        )
+        st.success(
+            "**💡 Rekomendasi Solusi Bisnis (P1):**\n\n"
+            "**Edukasi Pemilik Domain:** Tim Kemitraan PANDI menegur pemilik ketiga domain melalui registrar terkait untuk memperbaiki caching aplikasinya.\n\n"
+            "**Target KPI:** Kueri berulang turun ≥85%, langsung menghemat **~27% kapasitas nasional (~800 QPS)** secara instan tanpa biaya perangkat keras (Zero Cost / Rp0,-)."
+        )
 
 # --- TAB 2: DNSSEC ---
 with tab2:
@@ -154,17 +154,18 @@ with tab2:
       st.warning("Gambar grafik DNSSEC belum dibuat.")
 
   with col_text:
-    st.info("""**🔍 Analisis Akar Masalah:**
-
-• **Adopsi Tinggi:** 87,58% kueri meminta DNSSEC (`do=1`).
-• **Amplifikasi Ukuran:** Payload membengkak dari median 44 Byte (kueri) menjadi median 446 Byte (hingga rekor 2.126 Byte) pada respons bertanda tangan.
-• **Pemotongan UDP:** 321.798 paket (5,50%) terpotong (`tc=1`) karena melebihi buffer 1.232 B (RFC 8900).
-• **Beban TCP 2,6x Lebih Lambat:** Memicu 510.391 koneksi TCP yang memakan memori kernel server Anycast dan 2,6x lebih lambat (277,4 µs vs 106,7 µs).""")
-    st.success("""**💡 Rekomendasi Solusi Bisnis (P2):**
-
-**Tuning Kernel Anycast:** Naikkan parameter OS `tcp_max_syn_backlog` dari 1.024 ke 16.384/32.768 agar port 53 bebas dari risiko *socket exhaustion*.
-
-**Migrasi Kriptografi:** Evaluasi adopsi kurva eliptik ECDSA P-256 (RFC 8624) yang lebih ringkas agar respons muat di bawah 1.232 Byte.""")
+        st.info(
+            "**🔍 Analisis Akar Masalah:**\n\n"
+            "• **Adopsi Tinggi:** 87,58% kueri meminta DNSSEC (`do=1`).\n\n"
+            "• **Amplifikasi Ukuran:** Payload membengkak dari median 44 Byte (kueri) menjadi median 446 Byte (hingga rekor 2.126 Byte) pada respons bertanda tangan.\n\n"
+            "• **Pemotongan UDP:** 321.798 paket (5,50%) terpotong (`tc=1`) karena melebihi buffer 1.232 B (RFC 8900).\n\n"
+            "• **Beban TCP 2,6x Lebih Lambat:** Memicu 510.391 koneksi TCP yang memakan memori kernel server Anycast dan 2,6x lebih lambat (277,4 µs vs 106,7 µs)."
+        )
+        st.success(
+            "**💡 Rekomendasi Solusi Bisnis (P2):**\n\n"
+            "**Tuning Kernel Anycast:** Naikkan parameter OS `tcp_max_syn_backlog` dari 1.024 ke 16.384/32.768 agar port 53 bebas dari risiko *socket exhaustion*.\n\n"
+            "**Migrasi Kriptografi:** Evaluasi adopsi kurva eliptik ECDSA P-256 (RFC 8624) yang lebih ringkas agar respons muat di bawah 1.232 Byte."
+        )
 
 # --- TAB 3: NXDOMAIN ---
 with tab3:
@@ -186,17 +187,18 @@ with tab3:
       st.warning("Gambar grafik NXDOMAIN belum dibuat.")
 
   with col_text:
-    st.info("""**🔍 Analisis Akar Masalah:**
-
-• **58,3% Volume Kueri:** Domain kedaluwarsa/mati yang masih terus dicari sistem luar (`tracker.itscraftsoftware.my.id`).
-• **35,7% Nama Domain Unik (23% Volume):** Variasi salah ketik pengguna sesaat (*human typos / singletons*).
-• **Enterprise & Stale NS:** Kueri otomatis Microsoft Office 365 (`msoid.co.id`) dan rujukan nameserver mati (`ns1.bna.net.id`).
-• **Anomali Menit 15:02 WIB:** Lonjakan tajam sesaat akibat scanning/fuzzing dari 2 IP penguji, bukan DDoS PRSD yang mengancam server.""")
-    st.success("""**💡 Rekomendasi Solusi Bisnis (P3 - Solusi Rp0,-):**
-
-**Negative Caching RFC 2308:** Naikkan parameter *SOA Minimum TTL* dari 300 detik (5 menit) ke 1.800 detik (30 menit).
-
-**Target KPI:** Resolver ISP menahan jawaban NXDOMAIN 6x lebih lama, meredam 25%–35% kueri sampah berulang ke PANDI secara cuma-cuma tanpa belanja hardware!""")
+        st.info(
+            "**🔍 Analisis Akar Masalah:**\n\n"
+            "• **58,3% Volume Kueri:** Domain kedaluwarsa/mati yang masih terus dicari sistem luar (`tracker.itscraftsoftware.my.id`).\n\n"
+            "• **35,7% Nama Domain Unik (23% Volume):** Variasi salah ketik pengguna sesaat (*human typos / singletons*).\n\n"
+            "• **Enterprise & Stale NS:** Kueri otomatis Microsoft Office 365 (`msoid.co.id`) dan rujukan nameserver mati (`ns1.bna.net.id`).\n\n"
+            "• **Anomali Menit 15:02 WIB:** Lonjakan tajam sesaat akibat scanning/fuzzing dari 2 IP penguji, bukan DDoS PRSD yang mengancam server."
+        )
+        st.success(
+            "**💡 Rekomendasi Solusi Bisnis (P3 - Solusi Rp0,-):**\n\n"
+            "**Negative Caching RFC 2308:** Naikkan parameter *SOA Minimum TTL* dari 300 detik (5 menit) ke 1.800 detik (30 menit).\n\n"
+            "**Target KPI:** Resolver ISP menahan jawaban NXDOMAIN 6x lebih lama, meredam 25%–35% kueri sampah berulang ke PANDI secara cuma-cuma tanpa belanja hardware!"
+        )
 
 # --- TAB 4: TABEL RISIKO ---
 with tab4:
