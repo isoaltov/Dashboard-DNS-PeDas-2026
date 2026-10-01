@@ -100,7 +100,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 tab1, tab2, tab3, tab4 = st.tabs([
     "📈 1. Distorsi Pareto",
     "🛡️ 2. Amplifikasi DNSSEC",
-    "🗑️ 3. Mitos NXDOMAIN",
+    "🗑️ 3. Taksonomi NXDOMAIN",
     "🗄️ 4. Audit Profil Risiko Zona",
 ])
 
